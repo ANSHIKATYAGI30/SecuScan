@@ -16,29 +16,31 @@ def get_changed_files():
 
     had_error = False
 
+    had_error = False
+
     for cmd in commands:
         try:
             res = subprocess.run(
-                cmd,
-                capture_output=True,
-                text=True,
-                check=True,
+            cmd,
+            capture_output=True,
+            text=True,
+            check=True,
             )
-
             files = [
-                line.strip()
-                for line in res.stdout.splitlines()
-                if line.strip()
+            line.strip()
+            for line in res.stdout.splitlines()
+            if line.strip()
             ]
-
-            return files
-
+            
+            if files:
+                return files
+        
         except subprocess.CalledProcessError:
             had_error = True
-
+            
     if had_error:
         print("Warning: Unable to determine changed files.")
-
+            
     return []
 
 
